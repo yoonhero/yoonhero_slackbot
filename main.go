@@ -6,23 +6,17 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/slack-go/slack"
+	"github.com/yoonhero/yoonhero_slackbot/messages"
 )
 
 func main() {
-	err := godotenv.Load(".env")
+	_ = godotenv.Load(".env")
 
 	api := slack.New(os.Getenv("SLACK_BOT_TOKEN"))
 
-	channelID, timestamp, err := api.PostMessage(
-		"hi",
-		slack.MsgOptionText("Hello World", false),
-		slack.MsgOptionAsUser(false),
-	)
+	err := messages.SendMsg("HI", api)
 
 	if err != nil {
-		fmt.Printf("%s\n", err)
-		return
+		fmt.Printf("[ERROR]: %s\n", err)
 	}
-
-	fmt.Printf("Message sent successfully to channel %s at %s\n", channelID, timestamp)
 }
